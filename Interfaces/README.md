@@ -39,7 +39,7 @@ Explorar as capacidades modernas das interfaces em Java:
 - Métodos `default`, `static` e `private` em interfaces  
 - Interface funcional `Comparable`  
 - Reuso de código com interfaces  
-- **Injeção de dependência**
+- Princípios de Injeção de Dependência
 
 ---
 
