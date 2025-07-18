@@ -8,7 +8,7 @@ import java.util.Properties;
 public class DB {
     public static Connection conn = null;
 
-    public static Connection conn() {
+    public static Connection getConnection() {
         if(conn == null){
             try {
                 Properties props = loadProperties();
