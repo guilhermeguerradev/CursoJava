@@ -6,9 +6,12 @@ import model.entities.Seller;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+
+        Scanner input = new Scanner(System.in);
 
         DateTimeFormatter dtm = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -42,9 +45,16 @@ public class Main {
         sellerDao.update(seller);
         System.out.println("Update completed");
 
+        System.out.println("=== TEST 6 : seller Delete ===");
+        System.out.println("Enter id for delete test: ");
+        int id = input.nextInt();
+        sellerDao.deleteById(id);
+        System.out.println("Deleted");
 
 
 
+
+        input.close();
 
     }
 }
