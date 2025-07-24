@@ -95,6 +95,8 @@ public class SellerDaoJDBC implements SellerDao {
 
             st.executeUpdate();
 
+            System.out.println("Deleted");
+
 
         } catch (SQLException e) {
             throw new DbException(e.getMessage());
