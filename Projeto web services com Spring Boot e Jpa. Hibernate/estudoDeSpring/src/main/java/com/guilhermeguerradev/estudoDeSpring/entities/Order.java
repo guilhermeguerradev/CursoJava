@@ -75,14 +75,27 @@ public class Order implements Serializable {
         this.client = client;
     }
 
-    public OrderStatus getOrderStatus(int code) {
-        return OrderStatus.valueOf(code);
+    public OrderStatus getOrderStatus() {
+        return OrderStatus.valueOf(orderStatus);
     }
 
     public void setOrderStatus(OrderStatus orderStatus) {
         if (orderStatus != null) {
             this.orderStatus = orderStatus.getCode();
         }
+    }
+
+    public Set<OrderItem> getItems() {
+        return items;
+    }
+
+    public Double getTotal() {
+        Double sum = 0.0;
+
+        for (OrderItem x : items) {
+            sum += x.getSubTotal();
+        }
+        return sum;
     }
 
     @Override

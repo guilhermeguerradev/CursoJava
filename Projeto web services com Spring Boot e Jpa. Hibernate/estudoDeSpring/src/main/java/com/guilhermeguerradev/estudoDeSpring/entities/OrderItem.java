@@ -1,5 +1,6 @@
 package com.guilhermeguerradev.estudoDeSpring.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.guilhermeguerradev.estudoDeSpring.entities.pk.OrderItemPK;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -28,6 +29,7 @@ public class OrderItem {
         this.price = price;
     }
 
+    @JsonIgnore
     public Order getOrder() {
         return id.getOrder();
     }
@@ -58,6 +60,10 @@ public class OrderItem {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Double getSubTotal() {
+        return price * quantity;
     }
 
 
