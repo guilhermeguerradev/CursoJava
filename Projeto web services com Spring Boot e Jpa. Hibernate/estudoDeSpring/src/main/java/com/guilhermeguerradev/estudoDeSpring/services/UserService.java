@@ -2,7 +2,12 @@ package com.guilhermeguerradev.estudoDeSpring.services;
 
 import com.guilhermeguerradev.estudoDeSpring.entities.User;
 import com.guilhermeguerradev.estudoDeSpring.repositories.UserRepository;
+import com.guilhermeguerradev.estudoDeSpring.services.exceptions.DatabaseException;
+import com.guilhermeguerradev.estudoDeSpring.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +23,9 @@ public class UserService {
         return repository.findAll();
     }
 
-    public Optional<User> findById(Long id) {
-        return repository.findById(id);
+    public User findById(Long id) {
+        Optional<User> obj = repository.findById(id);
+        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     public User insert(User obj) {
@@ -27,13 +33,23 @@ public class UserService {
     }
 
     public void deleteById(Long id) {
-        repository.deleteById(id);
+        try {
+            repository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException(e.getMessage());
+        }
     }
 
-    public User update(Long id, User obj) {
-        User entity = repository.getReferenceById(id);
-        updateData(entity,obj);
-        return repository.save(entity);
+    public void update(Long id, User obj) {
+        try {
+            User entity = repository.getReferenceById(id);
+            updateData(entity, obj);
+            repository.save(entity);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException(id);
+        }
     }
 
     private void updateData(User entity, User obj) {
